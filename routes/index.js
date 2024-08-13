@@ -41,7 +41,7 @@ router.post('/signup', async (req, res) => {   // Use router.route() for chainin
 
 router.post('/signin', async (req, res, next) => {
 	try {
-		const user = await User.findOne({email: req.body.email});
+		const user = await User.findOne({email: req.body.email}).collation( { locale: 'en', strength: 2 });
 		console.log(req,user)
 	if(!user)
 	return res.status(200).json({
