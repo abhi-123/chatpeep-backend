@@ -4,6 +4,8 @@ import {User} from '../config/models/userModel.js';
 //import { encode, decode } from '../middlewares/jwt';
 import { ERROR_MESSAGES } from '../constants.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 
 
 
@@ -42,7 +44,7 @@ router.post('/signup', async (req, res) => {   // Use router.route() for chainin
 router.post('/signin', async (req, res, next) => {
 	try {
 		const user = await User.findOne({email: req.body.email}).collation( { locale: 'en', strength: 2 });
-		console.log(req,user)
+		//console.log(req,user)
 	if(!user)
 	return res.status(200).json({
 		success: false,
@@ -53,13 +55,15 @@ router.post('/signin', async (req, res, next) => {
 	if(!password)
 	return res.status(200).json({
 		success: false,
-		message: 'Password is Incorrect!',
+		message: 'Invalid Credentials!',
 		data: null
 	});
+
 	return res.status(200).json({
 		success: true,
 		message: 'Successfully Login!',
-		data: user  
+		data: user,
+		token : await user.generateToken()
 	});
 } catch (error) {
 	console.log(error);

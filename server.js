@@ -6,10 +6,11 @@ import { connectDb } from './config/index.js';
 import router from './routes/index.js';
 import { ERROR_MESSAGES } from './constants.js';
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8082;
 const corsOptions = { credentials: false };
 const app = express();
 app.use(logger('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions));

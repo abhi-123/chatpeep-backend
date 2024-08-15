@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -30,5 +31,18 @@ UserSchema.pre('save', async function(next) {
   
  
 })
+UserSchema.methods.generateToken = async function() {
+try {
+  // return jwt.sign({
+  //   userId : this._id.toString(),
+  //   email : this.email
+  // },process.env.JWT_SECRET_KEY)
 
+  return jwt.sign({ foo: 'bar' }, 'shhhhh');
+  
+} catch (error) {
+  console.log(error);
+}
+}
+ 
 export const User = mongoose.model("User", UserSchema); 
